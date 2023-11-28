@@ -34,7 +34,7 @@ interface PokedexApiService {
 /**
  * A public Api object that exposes the lazy-initialized Retrofit service
  */
-object MarsApi {
+object PokemonApi {
     val retrofitService: PokedexApiService by lazy {
         retrofit.create(PokedexApiService::class.java)
     }
