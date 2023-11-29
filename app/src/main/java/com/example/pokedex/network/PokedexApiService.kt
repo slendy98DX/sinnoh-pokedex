@@ -30,10 +30,6 @@ interface PokedexApiService {
     suspend fun getPokemon() : List<Pokemon>
 
 }
-
-/**
- * A public Api object that exposes the lazy-initialized Retrofit service
- */
 object PokemonApi {
     val retrofitService: PokedexApiService by lazy {
         retrofit.create(PokedexApiService::class.java)
