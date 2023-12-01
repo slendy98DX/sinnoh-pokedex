@@ -1,10 +1,11 @@
-package com.example.pokedex
+package com.example.pokedex.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.example.pokedex.R
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
