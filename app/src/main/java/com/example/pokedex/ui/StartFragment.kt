@@ -17,9 +17,9 @@ import com.example.pokedex.network.model.PokemonViewModel
 
 class StartFragment : Fragment() {
 
-    private val viewModel : PokemonViewModel by activityViewModels()
+    private val sharedViewModel: PokemonViewModel by activityViewModels()
     private var binding: FragmentStartBinding? = null
-    private var adapter : PokemonListAdapter? = null
+    private var adapter: PokemonListAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,20 +35,37 @@ class StartFragment : Fragment() {
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             startFragment = this@StartFragment
-            viewModel = viewModel
+            viewModel = sharedViewModel
         }
 
         adapter = PokemonListAdapter(PokemonListener { clickedPokemon ->
-            updatePokemonDetails(clickedPokemon)
+            sharedViewModel.selectPokemon(clickedPokemon)
         })
 
         setupRecyclerView()
         observeViewModel()
+
+        sharedViewModel.fetchPokemons()
+
+        // Observe the selected Pokémon
+        sharedViewModel.selectedPokemon.observe(viewLifecycleOwner) { selectedPokemon ->
+            selectedPokemon?.let { updatePokemonDetails(it) }
+        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
+    private fun observeViewModel() {
+        sharedViewModel.pokemonList.observe(viewLifecycleOwner) { pokemonList ->
+            // Update UI with the Pokémon data
+            if (pokemonList.isNotEmpty()) {
+                Log.d("PokemonFragment", "Pokémon list size: ${pokemonList.size}")
+                adapter?.submitList(pokemonList)
+
+                // If no Pokémon is selected, select the first one
+                if (sharedViewModel.selectedPokemon.value == null) {
+                    sharedViewModel.selectPokemon(pokemonList[0])
+                }
+            }
+        }
     }
 
     private fun updatePokemonDetails(pokemon: Pokemon) {
@@ -58,22 +75,18 @@ class StartFragment : Fragment() {
         // Update other details
         binding?.pokemonNumberTextView?.text = "Pokemon #${pokemon.num}"
         binding?.pokemonNameTextView?.text = pokemon.name
-        binding?.pokemonTypeHeightWeightTextView?.text = "Type: ${pokemon.types} | Height: ${pokemon.height}m | Weight: ${pokemon.weight}kg"
+        binding?.pokemonTypeHeightWeightTextView?.text =
+            "Type: ${pokemon.types.joinToString()} | Height: ${pokemon.height}m | Weight: ${pokemon.weight}kg"
         binding?.pokemonDescriptionTextView?.text = pokemon.description
-    }
-
-    private fun observeViewModel() {
-        viewModel.pokemonList.observe(viewLifecycleOwner) { pokemonList ->
-            // Update UI with the Pokemon data
-            if (pokemonList.isNotEmpty()) {
-                Log.d("PokemonFragment", "Pokemon list size: ${pokemonList.size}")
-                adapter?.submitList(pokemonList)
-            }
-        }
     }
 
     private fun setupRecyclerView() {
         binding?.pokemonListRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.pokemonListRecyclerView?.adapter = adapter
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

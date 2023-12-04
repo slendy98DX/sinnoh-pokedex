@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/startFragment"
         android:name="com.example.pokedex.ui.StartFragment"
-        android:label="Pokèdex"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_start" />
 </navigation>
