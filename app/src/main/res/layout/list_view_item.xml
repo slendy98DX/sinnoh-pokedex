@@ -48,7 +48,7 @@
             app:layout_constraintTop_toTopOf="@id/pokeballIcon"
             app:layout_constraintBottom_toBottomOf="@id/pokeballIcon"
         android:elevation="4dp"
-        android:text="@{pokemon.num == -1 ? `Loading...` : String.format(`#%03d %s`, pokemon.num, pokemon.name)}" />
+        android:text="@{pokemon.num == 0 ? `Loading...` : String.format(`#%03d %s`, pokemon.num, pokemon.name)}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

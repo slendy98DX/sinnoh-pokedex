@@ -4,13 +4,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import coil.load
+import com.example.pokedex.R
 import com.example.pokedex.network.Pokemon
 
 @BindingAdapter("pokemonImage")
 fun loadPokemonImage(imageView: ImageView, imageUrl: String?) {
-    imageUrl?.let {
-        imageView.load(it)
-    }
+        imageView.load(imageUrl) {
+            error(R.drawable.unown_1)
+        }
 }
 
 @BindingAdapter("pokemonNumber")
@@ -22,22 +23,28 @@ fun setPokemonNumber(textView: TextView, number: Int?) {
 
 @BindingAdapter("pokemonName")
 fun setPokemonName(textView: TextView, name: String?) {
-    name?.let {
-        textView.text = name
-    }
+    textView.text = name ?: "???"
 }
 
 @BindingAdapter("pokemonDetails")
 fun setPokemonDetails(textView: TextView, pokemon: Pokemon?) {
-    pokemon?.let {
-        val details = "Type: ${it.types.joinToString()} | Height: ${it.height}m | Weight: ${it.weight}kg"
-        textView.text = details
+    val details = buildString {
+        append("Type: ${pokemon?.types?.joinToString() ?: "Unknown"} | ")
+
+        pokemon?.height?.let { append("Height: $it m | ") }
+        pokemon?.weight?.let { append("Weight: $it kg") }
+
+        // Trim any trailing " | " if both height and weight are present
+        if (endsWith(" | ")) {
+            setLength(length - 3)
+        }
     }
+    textView.text = details
 }
 
 @BindingAdapter("pokemonDescription")
 fun setPokemonDescription(textView: TextView, description: String?) {
-    textView.text = description
+    textView.text = description ?: "???"
 }
 
 

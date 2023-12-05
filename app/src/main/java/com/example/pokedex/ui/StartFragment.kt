@@ -8,11 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
 import com.example.pokedex.adapter.PokemonListAdapter
 import com.example.pokedex.adapter.PokemonListener
 import com.example.pokedex.databinding.FragmentStartBinding
-import com.example.pokedex.network.Pokemon
 import com.example.pokedex.network.model.PokemonViewModel
 
 class StartFragment : Fragment() {
@@ -44,13 +42,6 @@ class StartFragment : Fragment() {
 
         setupRecyclerView()
         observeViewModel()
-
-        sharedViewModel.fetchPokemons()
-
-        // Observe the selected Pokémon
-        sharedViewModel.selectedPokemon.observe(viewLifecycleOwner) { selectedPokemon ->
-            selectedPokemon?.let { updatePokemonDetails(it) }
-        }
     }
 
     private fun observeViewModel() {
@@ -66,18 +57,6 @@ class StartFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun updatePokemonDetails(pokemon: Pokemon) {
-        // Using Coil to load the Pokemon image
-        binding?.pokemonImageView?.load(pokemon.img)
-
-        // Update other details
-        binding?.pokemonNumberTextView?.text = "Pokemon #${pokemon.num}"
-        binding?.pokemonNameTextView?.text = pokemon.name
-        binding?.pokemonTypeHeightWeightTextView?.text =
-            "Type: ${pokemon.types.joinToString()} | Height: ${pokemon.height}m | Weight: ${pokemon.weight}kg"
-        binding?.pokemonDescriptionTextView?.text = pokemon.description
     }
 
     private fun setupRecyclerView() {
