@@ -13,7 +13,7 @@ import com.example.pokedex.network.model.PokemonApiStatus
 fun loadPokemonImage(imageView: ImageView, imageUrl: String?) {
         imageView.load(imageUrl) {
             error(R.drawable.unown_1)
-            placeholder(R.drawable.pok__ball_icon)
+            placeholder(R.drawable.loading_animation)
         }
 }
 
