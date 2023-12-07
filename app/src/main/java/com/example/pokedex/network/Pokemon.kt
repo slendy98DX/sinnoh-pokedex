@@ -12,6 +12,7 @@ data class Pokemon(
     @Json(name = "type") val types: List<String>,
     @Json(name = "height") val height: String,
     @Json(name = "weight") val weight: String,
-    @Json(name = "description") val description : String
+    @Json(name = "description") val description : String,
+    var isSelected : Boolean = false
 
 )
