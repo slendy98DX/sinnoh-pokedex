@@ -1,6 +1,7 @@
 package com.example.pokedex.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -47,10 +48,43 @@ class PokemonListAdapter(private val clickListener: PokemonListener) :
 }
 
 class PokemonListener(val clickListener: (pokemon: Pokemon) -> Unit) {
-    fun onClick(pokemon: Pokemon) {
+    fun onClick(pokemon: Pokemon, view: View) {
         // Check if the Pokemon is not already selected
         if (!pokemon.isSelected) {
-            clickListener(pokemon)
+            // Scale the view on click
+            view.animate()
+                .scaleX(0.8f)
+                .scaleY(0.8f)
+                .setDuration(50) // Set the duration of the animation in milliseconds
+                .withEndAction {
+                    // Perform your click action here
+                    clickListener(pokemon)
+
+                    // Restore the original scale after the click action is done
+                    view.animate()
+                        .scaleX(1.0f)
+                        .scaleY(1.0f)
+                        .setDuration(50)
+                        .start()
+                }
+                .start()
+        } else {
+            // Optionally, you can add a different animation for deselection
+            // For example, fade out the view when deselected
+            view.animate()
+                .alpha(0.5f)
+                .setDuration(50)
+                .withEndAction {
+                    // Perform your click action here (for deselection)
+                    clickListener(pokemon)
+
+                    // Restore the original alpha after the click action is done
+                    view.animate()
+                        .alpha(1.0f)
+                        .setDuration(50)
+                        .start()
+                }
+                .start()
         }
     }
 }

@@ -11,6 +11,9 @@
         <variable
             name="clickListener"
             type="com.example.pokedex.adapter.PokemonListener" />
+        <variable
+            name="view"
+            type="android.view.View" />
         <import type="android.view.View" />
     </data>
 
@@ -20,7 +23,7 @@
         android:orientation="vertical"
         android:padding="16dp"
         android:clickable="true"
-        android:onClick="@{() -> clickListener.onClick(pokemon)}">
+        android:onClick="@{(view) -> clickListener.onClick(pokemon,view)}">
 
         <ImageView
             android:id="@+id/pokeballIcon"
@@ -48,7 +51,8 @@
             app:layout_constraintTop_toTopOf="@id/pokeballIcon"
             app:layout_constraintBottom_toBottomOf="@id/pokeballIcon"
         android:elevation="4dp"
-        android:text="@{pokemon.num == 0 ? `Loading...` : String.format(`#%03d %s`, pokemon.num, pokemon.name)}" />
+        android:text="@{pokemon.num == 0 ? `Loading...` : String.format(`#%03d %s`, pokemon.num, pokemon.name)}"
+            android:animateLayoutChanges="true"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
