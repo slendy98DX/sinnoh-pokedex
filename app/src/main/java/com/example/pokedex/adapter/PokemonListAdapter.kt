@@ -48,9 +48,8 @@ class PokemonListAdapter(private val clickListener: PokemonListener) :
 
 class PokemonListener(val clickListener: (pokemon: Pokemon) -> Unit) {
     fun onClick(pokemon: Pokemon) {
-        // Check if the Pokemon is already selected
+        // Check if the Pokemon is not already selected
         if (!pokemon.isSelected) {
-            pokemon.isSelected = true
             clickListener(pokemon)
         }
     }

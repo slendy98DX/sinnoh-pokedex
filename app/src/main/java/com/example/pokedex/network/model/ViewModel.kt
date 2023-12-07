@@ -37,6 +37,8 @@ class PokemonViewModel : ViewModel() {
     }
 
     fun selectPokemon(pokemon: Pokemon) {
+        _selectedPokemon.value?.isSelected = false
+        pokemon.isSelected = true
         _selectedPokemon.value = pokemon
     }
 
