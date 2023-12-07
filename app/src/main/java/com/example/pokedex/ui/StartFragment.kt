@@ -1,6 +1,6 @@
 package com.example.pokedex.ui
 
-import android.os.Bundle
+import android .os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -37,7 +37,9 @@ class StartFragment : Fragment() {
         }
 
         adapter = PokemonListAdapter(PokemonListener { clickedPokemon ->
-            sharedViewModel.selectPokemon(clickedPokemon)
+            if(sharedViewModel.selectedPokemon.value?.name != clickedPokemon.name) {
+                sharedViewModel.selectPokemon(clickedPokemon)
+            }
         })
 
         setupRecyclerView()

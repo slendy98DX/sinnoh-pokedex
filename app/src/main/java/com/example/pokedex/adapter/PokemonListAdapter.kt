@@ -49,13 +49,12 @@ class PokemonListAdapter(private val clickListener: PokemonListener) :
 
 class PokemonListener(val clickListener: (pokemon: Pokemon) -> Unit) {
     fun onClick(pokemon: Pokemon, view: View) {
-        // Check if the Pokemon is not already selected
         if (!pokemon.isSelected) {
-            // Scale the view on click
+            // Scale up the view when selected
             view.animate()
-                .scaleX(0.8f)
-                .scaleY(0.8f)
-                .setDuration(50) // Set the duration of the animation in milliseconds
+                .scaleX(1.2f)
+                .scaleY(1.2f)
+                .setDuration(10)
                 .withEndAction {
                     // Perform your click action here
                     clickListener(pokemon)
@@ -64,16 +63,15 @@ class PokemonListener(val clickListener: (pokemon: Pokemon) -> Unit) {
                     view.animate()
                         .scaleX(1.0f)
                         .scaleY(1.0f)
-                        .setDuration(50)
+                        .setDuration(10)
                         .start()
                 }
-                .start()
         } else {
             // Optionally, you can add a different animation for deselection
             // For example, fade out the view when deselected
             view.animate()
                 .alpha(0.5f)
-                .setDuration(50)
+                .setDuration(10)
                 .withEndAction {
                     // Perform your click action here (for deselection)
                     clickListener(pokemon)
@@ -81,10 +79,9 @@ class PokemonListener(val clickListener: (pokemon: Pokemon) -> Unit) {
                     // Restore the original alpha after the click action is done
                     view.animate()
                         .alpha(1.0f)
-                        .setDuration(50)
+                        .setDuration(10)
                         .start()
                 }
-                .start()
         }
     }
 }
